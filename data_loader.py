@@ -8,8 +8,6 @@ class DataLoader:
         self._load_data(x_dir_path, y_dir_path)
 
 
-
-
     def _load_data(self, x_dir_path, y_dir_path):
         image_file_names = sorted(os.listdir(x_dir_path))
 
@@ -36,10 +34,30 @@ class DataLoader:
             self.y_images.append(y_image)
 
 
+    def run(self, train_size = 0.8):
+        train_index = int(len(self.x_images) * train_size)
+
+        train_x = self.x_images[:train_index]
+        train_y = self.y_images[:train_index]
+
+
+        val_x = self.x_images[train_index:]
+        val_y = self.y_images[train_index:]
+
+
+        return np.array(train_x), np.array(train_y), np.array(val_x), np.array(val_y)
+
+
 
 
 def main():
     data_loader = DataLoader(x_dir_path = "28x28", y_dir_path = "224x224")
+    train_x, train_y, val_x, val_y = data_loader.run()
+
+    print(train_x.shape)
+    print(train_y.shape)
+    print(val_x.shape)
+    print(val_y.shape)
 
 
 if __name__ == "__main__":
